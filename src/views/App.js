@@ -1,19 +1,28 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
+import fetch from 'node-fetch';
 import { Timeline } from './timeline';
+import roversRepositoryCreator from '../repositories/rovers';
+import nasaApiClientCreator from '../clients/nasa-api';
 
-const rovers = [
-  {
-    id: 1,
-    name: 'Spirit',
-  },
-  {
-    id: 2,
-    name: 'Curiosity',
-  },
-];
+export default class App extends PureComponent {
+  constructor(props) {
+    super(props);
+    this.state = {
+      rovers: [],
+    };
+    this.roversRepository = roversRepositoryCreator(nasaApiClientCreator(fetch));
+  }
 
-export default function App() {
-  return (
-        <Timeline rovers={rovers} />
-  );
+  async componentDidMount() {
+    const rovers = await this.roversRepository.getAll();
+    this.setState({
+      rovers,
+    });
+  }
+
+  render() {
+    return (
+        <Timeline rovers={this.state.rovers} />
+    );
+  }
 }

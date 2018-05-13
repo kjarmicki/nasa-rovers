@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import Timeline from './Timeline';
+import { Timeline } from './Timeline';
 
 describe('The Timeline component', () => {
   it("should be able to pass it's bounds to children", () => {

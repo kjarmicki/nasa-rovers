@@ -20,7 +20,7 @@ describe('The Rover component', () => {
     const filledTime = component.find('.rover-time-filled');
 
     // then
-    expect(filledTime).toHaveStyle('margin-left', '25%');
+    expect(filledTime).toHaveStyle('marginLeft', '25%');
     expect(filledTime).toHaveStyle('width', '50%');
   });
 });

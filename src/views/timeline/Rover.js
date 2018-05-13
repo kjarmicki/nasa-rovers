@@ -18,7 +18,7 @@ export default class Rover extends PureComponent {
     const { offsetPercent, widthPercent } = this.calculateTimePlacement();
     const timeFilledStyle = {
       width: `${widthPercent}%`,
-      'margin-left': `${offsetPercent}%`,
+      marginLeft: `${offsetPercent}%`,
     };
     return (
       <div className="rover">

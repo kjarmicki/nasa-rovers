@@ -1,8 +1,9 @@
 import React, { PureComponent } from 'react';
 import { arrayOf, shape, number, string } from 'prop-types';
+import { connect } from 'react-redux';
 import Rover from './Rover';
 
-export default class Timeline extends PureComponent {
+export class Timeline extends PureComponent {
   calculateBounds() {
     return this.props.rovers.reduce((bounds, rover) => {
       const landingTimestamp = Date.parse(rover.landing_date);
@@ -32,3 +33,7 @@ Timeline.propTypes = {
     max_date: string,
   })),
 };
+
+export default connect(state => ({
+  rovers: state.rovers,
+}))(Timeline);

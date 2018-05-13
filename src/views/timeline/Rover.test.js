@@ -8,7 +8,7 @@ describe('The Rover component', () => {
     const roverProps = {
       name: 'Rov',
       landing_date: '2012-01-02',
-      max_date: '2012-01-03',
+      max_date: '2012-01-04',
       bounds: {
         min: Date.parse('2012-01-01'),
         max: Date.parse('2012-01-04'),

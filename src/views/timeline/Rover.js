@@ -9,7 +9,7 @@ export default class Rover extends PureComponent {
     const spectrum = max - (min - daysToMiliseconds(1));
     const onePercentUnit = 100 / spectrum;
     const offset = Date.parse(this.props.landing_date) - min;
-    const width = Date.parse(this.props.max_date) - min;
+    const width = Date.parse(this.props.max_date) - min - offset;
     return {
       offsetPercent: offset * onePercentUnit,
       widthPercent: width * onePercentUnit,

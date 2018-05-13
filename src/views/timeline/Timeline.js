@@ -1,17 +1,34 @@
-import React from 'react';
-import { arrayOf, shape, number } from 'prop-types';
+import React, { PureComponent } from 'react';
+import { arrayOf, shape, number, string } from 'prop-types';
 import Rover from './Rover';
 
-export default function Timeline(props) {
-  return (
-        <div className="timeline">
-            { props.rovers.map(roverData => <Rover key={roverData.id} {...roverData} />) }
-        </div>
-  );
+export default class Timeline extends PureComponent {
+  calculateBounds() {
+    return this.props.rovers.reduce((bounds, rover) => {
+      const landingTimestamp = Date.parse(rover.landing_date);
+      const maxDateTimestamp = Date.parse(rover.max_date);
+      bounds.min = bounds.min === undefined ?
+        landingTimestamp : Math.min(bounds.min, landingTimestamp);
+      bounds.max = bounds.max === undefined ?
+        maxDateTimestamp : Math.max(bounds.max, maxDateTimestamp);
+      return bounds;
+    }, { min: undefined, max: undefined });
+  }
+  render() {
+    const bounds = this.calculateBounds();
+    return (
+      <div className="timeline">
+        {this.props.rovers.map(roverData =>
+          <Rover bounds={bounds} key={roverData.id} {...roverData} />)}
+      </div>
+    );
+  }
 }
 
 Timeline.propTypes = {
   rovers: arrayOf(shape({
     id: number,
+    landing_date: string,
+    max_date: string,
   })),
 };

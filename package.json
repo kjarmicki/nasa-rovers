@@ -14,7 +14,7 @@
     "lint:fix": "eslint . --fix",
     "test": "jest",
     "test:debug": "node --inspect-brk node_modules/.bin/jest --runInBand",
-    "precommit": "lint-staged"
+    "precommit": "lint-staged && npm test"
   },
   "keywords": [],
   "author": "Krystian Jarmicki",

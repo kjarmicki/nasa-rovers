@@ -1,0 +1,9 @@
+.rover-time {
+  border: 1px solid black;
+  height: 5px;
+}
+
+.rover-time-filled {
+  height: inherit;
+  background-color: black;
+}

@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import { string, shape, number } from 'prop-types';
 import { daysToMiliseconds } from '../../utils/time';
+import './Rover.css';
 
 export default class Rover extends PureComponent {
   calculateTimePlacement() {

@@ -1,0 +1,19 @@
+.timeline-ruler {
+  padding-top: 20px;
+}
+
+.timeline-ruler-marks {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid black;
+}
+
+.timeline-ruler-mark {
+  border-right: 1px solid black;
+  height: 5px;
+}
+
+.timeline-ruler-bounds {
+  display: flex;
+  justify-content: space-between;
+}

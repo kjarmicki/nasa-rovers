@@ -15,25 +15,15 @@ const EXAMPLE_ROVERS = [
     max_date: '2013-09-10',
   },
 ];
+const EXAMPLE_BOUNDS = {
+  min: Date.parse(EXAMPLE_ROVERS[1].landing_date),
+  max: Date.parse(EXAMPLE_ROVERS[0].max_date),
+};
 
 describe('The Timeline component', () => {
-  it("should be able to pass it's bounds to children", () => {
-    // given
-    const expectedMinBound = Date.parse(EXAMPLE_ROVERS[1].landing_date);
-    const expectedMaxBound = Date.parse(EXAMPLE_ROVERS[0].max_date);
-
-    // when
-    const component = shallow(<Timeline rovers={EXAMPLE_ROVERS} />);
-    const Rovers = component.find('Rover');
-
-    // then
-    expect(Rovers.at(0)).toHaveProp('bounds', { min: expectedMinBound, max: expectedMaxBound });
-    expect(Rovers.at(1)).toHaveProp('bounds', { min: expectedMinBound, max: expectedMaxBound });
-  });
-
   it('should render timeline bound dates correctly', () => {
     // when
-    const component = shallow(<Timeline rovers={EXAMPLE_ROVERS} />);
+    const component = shallow(<Timeline bounds={EXAMPLE_BOUNDS} />);
     const lowerBound = component.find('.timeline-ruler-lower-bound');
     const upperBound = component.find('.timeline-ruler-upper-bound');
 
@@ -45,7 +35,7 @@ describe('The Timeline component', () => {
   it('should dispatch appropriate action on mouse move', () => {
     // when
     const dispatch = jest.fn();
-    const component = shallow(<Timeline rovers={EXAMPLE_ROVERS} dispatch={dispatch} />);
+    const component = shallow(<Timeline bounds={EXAMPLE_BOUNDS} dispatch={dispatch} />);
     component.find('.timeline').simulate('mousemove', {
       clientX: 100,
       currentTarget: {
@@ -64,7 +54,7 @@ describe('The Timeline component', () => {
   it('should dispatch appropriate action on mouse click', () => {
     // when
     const dispatch = jest.fn();
-    const component = shallow(<Timeline rovers={EXAMPLE_ROVERS} dispatch={dispatch} />);
+    const component = shallow(<Timeline bounds={EXAMPLE_BOUNDS} dispatch={dispatch} />);
     component.find('.timeline').simulate('click', {
       clientX: 100,
       currentTarget: {
@@ -83,7 +73,7 @@ describe('The Timeline component', () => {
   it('should dispatch appropriate action on mouse leave', () => {
     // when
     const dispatch = jest.fn();
-    const component = shallow(<Timeline rovers={EXAMPLE_ROVERS} dispatch={dispatch} />);
+    const component = shallow(<Timeline bounds={EXAMPLE_BOUNDS} dispatch={dispatch} />);
     component.find('.timeline').simulate('mouseleave');
 
     // then

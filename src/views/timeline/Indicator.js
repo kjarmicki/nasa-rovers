@@ -1,9 +1,10 @@
 import React from 'react';
 import { shape, number } from 'prop-types';
+import { connect } from 'react-redux';
 import { daysToMiliseconds } from '../../utils/time';
 import './Indicator.css';
 
-export default function Indicator(props) {
+export function Indicator(props) {
   const { min, max } = props.bounds;
   const spectrum = max - (min - daysToMiliseconds(1));
   const onePercentUnit = 100 / spectrum;
@@ -21,3 +22,7 @@ Indicator.propTypes = {
   }),
   offset: number,
 };
+
+export default connect(state => ({
+  bounds: state.bounds,
+}))(Indicator);

@@ -1,9 +1,10 @@
 import React, { PureComponent } from 'react';
 import { string, shape, number } from 'prop-types';
+import { connect } from 'react-redux';
 import { daysToMiliseconds } from '../../utils/time';
 import './Rover.css';
 
-export default class Rover extends PureComponent {
+export class Rover extends PureComponent {
   calculateTimePlacement() {
     const { min, max } = this.props.bounds;
     const spectrum = max - (min - daysToMiliseconds(1));
@@ -41,3 +42,7 @@ Rover.propTypes = {
     max: number,
   }),
 };
+
+export default connect(state => ({
+  bounds: state.bounds,
+}))(Rover);

@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import Rover from './Rover';
+import { Rover } from './Rover';
 
 describe('The Rover component', () => {
   it("should be able to place it's time on the timeline", () => {

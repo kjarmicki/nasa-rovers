@@ -1,10 +1,22 @@
 import { combineReducers } from 'redux';
-import { INIT_ROVERS, CHOOSE_TIME, HOVER_OVER_TIME, STOP_HOVERING_OVER_TIME } from './actions';
+import { SET_ROVERS, SET_BOUNDS, CHOOSE_TIME, HOVER_OVER_TIME, STOP_HOVERING_OVER_TIME } from './actions';
 
 function rovers(state = [], action = {}) {
   switch (action.type) {
-    case INIT_ROVERS:
+    case SET_ROVERS:
       return action.rovers;
+    default:
+      return state;
+  }
+}
+
+function bounds(state = {
+  min: undefined,
+  max: undefined,
+}, action = {}) {
+  switch (action.type) {
+    case SET_BOUNDS:
+      return action.bounds;
     default:
       return state;
   }
@@ -36,5 +48,6 @@ function time(state = {
 
 export default combineReducers({
   rovers,
+  bounds,
   time,
 });

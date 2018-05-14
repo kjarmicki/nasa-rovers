@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import Indicator from './Indicator';
+import { Indicator } from './Indicator';
 
 describe('The Indicator component', () => {
   it("should be able to calculate it's offset", () => {

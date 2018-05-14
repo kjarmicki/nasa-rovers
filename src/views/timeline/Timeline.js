@@ -28,21 +28,10 @@ export class Timeline extends PureComponent {
     this.props.dispatch(actions.stopHoveringOverTime());
   }
   timeFromEvent(event) {
+    const { bounds } = this.props;
     const proportion = event.clientX / event.currentTarget.clientWidth;
-    const bounds = this.calculateBounds();
     const spectrum = bounds.max - (bounds.min - daysToMiliseconds(1));
     return spectrum * proportion;
-  }
-  calculateBounds() {
-    return this.props.rovers.reduce((bounds, rover) => {
-      const landingTimestamp = Date.parse(rover.landing_date);
-      const maxDateTimestamp = Date.parse(rover.max_date);
-      bounds.min = bounds.min === undefined ?
-        landingTimestamp : Math.min(bounds.min, landingTimestamp);
-      bounds.max = bounds.max === undefined ?
-        maxDateTimestamp : Math.max(bounds.max, maxDateTimestamp);
-      return bounds;
-    }, { min: undefined, max: undefined });
   }
   static createRulerMarks(size) {
     return (
@@ -63,9 +52,8 @@ export class Timeline extends PureComponent {
     );
   }
   render() {
-    const bounds = this.calculateBounds();
+    const { bounds, time: { offsetForHovering, offsetForChosen } } = this.props;
     const timelineClassName = classNames('timeline', { 'is-loading': !this.hasRovers() });
-    const { offsetForHovering, offsetForChosen } = this.props.time;
     return (
       <div
         className={timelineClassName}
@@ -74,13 +62,13 @@ export class Timeline extends PureComponent {
         onClick={this.onClick}
         >
         {this.props.rovers.map(roverData =>
-          <Rover bounds={bounds} key={roverData.id} {...roverData} />)}
+          <Rover key={roverData.id} {...roverData} />)}
         <div className="timeline-ruler">
           {Timeline.createRulerMarks(10)}
           {Timeline.createRulerBounds(bounds)}
         </div>
-        {offsetForHovering && <Indicator bounds={bounds} offset={offsetForHovering} />}
-        {offsetForChosen && <Indicator bounds={bounds} offset={offsetForChosen} />}
+        {offsetForHovering && <Indicator offset={offsetForHovering} />}
+        {offsetForChosen && <Indicator offset={offsetForChosen} />}
       </div>
     );
   }
@@ -96,6 +84,10 @@ Timeline.propTypes = {
     offsetForHovering: number,
     offsetForChosen: number,
   }),
+  bounds: shape({
+    min: number,
+    max: number,
+  }),
   dispatch: func,
 };
 
@@ -105,9 +97,14 @@ Timeline.defaultProps = {
     offsetForHovering: undefined,
     offsetForChosen: undefined,
   },
+  bounds: {
+    min: undefined,
+    max: undefined,
+  },
 };
 
 export default connect(state => ({
   rovers: state.rovers,
   time: state.time,
+  bounds: state.bounds,
 }))(Timeline);

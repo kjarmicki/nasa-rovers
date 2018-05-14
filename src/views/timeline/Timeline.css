@@ -1,3 +1,7 @@
+.timeline {
+  position: relative;
+}
+
 .timeline-ruler {
   padding-top: 20px;
 }

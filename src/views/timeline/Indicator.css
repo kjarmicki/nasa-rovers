@@ -1,0 +1,7 @@
+.indicator {
+  position: absolute;
+  width: 1px;
+  height: 100%;
+  top: 0;
+  background-color: black;
+}

@@ -1,11 +1,15 @@
 import React, { PureComponent } from 'react';
 import { arrayOf, shape, number, string } from 'prop-types';
 import { connect } from 'react-redux';
+import classNames from 'classnames';
 import Rover from './Rover';
 import { msToReadableDate } from '../../utils/time';
 import './Timeline.css';
 
 export class Timeline extends PureComponent {
+  hasRovers() {
+    return this.props.rovers.length > 0;
+  }
   calculateBounds() {
     return this.props.rovers.reduce((bounds, rover) => {
       const landingTimestamp = Date.parse(rover.landing_date);
@@ -37,8 +41,9 @@ export class Timeline extends PureComponent {
   }
   render() {
     const bounds = this.calculateBounds();
+    const timelineClassName = classNames('timeline', { 'is-loading': !this.hasRovers() });
     return (
-      <div className="timeline">
+      <div className={timelineClassName}>
         {this.props.rovers.map(roverData =>
           <Rover bounds={bounds} key={roverData.id} {...roverData} />)}
         <div className="timeline-ruler">

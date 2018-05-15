@@ -22,6 +22,9 @@
     "import/prefer-default-export": "off",
     "import/no-named-as-default": "off"
   },
+  "globals": {
+    "NASA_API_KEY": true
+  },
   "env": {
     "browser": true,
     "node": true,

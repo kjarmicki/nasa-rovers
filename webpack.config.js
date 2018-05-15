@@ -1,4 +1,6 @@
+require('dotenv').config();
 const { resolve } = require('path');
+const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 function ifProd(ifYes, ifNo) {
@@ -26,6 +28,9 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: './index.html',
+    }),
+    new webpack.DefinePlugin({
+      NASA_API_KEY: JSON.stringify(process.env.NASA_API_KEY),
     }),
   ],
 };

@@ -11,7 +11,7 @@ import nasaApiClientCreator from './clients/nasa-api';
 import App from './views/App';
 
 const roversRepository = roversRepositoryCreator(nasaApiClientCreator(fetch, {
-  apiKey: process.env.NASA_API_KEY,
+  apiKey: NASA_API_KEY || 'DEMO_KEY',
 }));
 const dependencies = { roversRepository };
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

@@ -1,4 +1,5 @@
 import React from 'react';
+import { string } from 'prop-types';
 
 export default function Image(props) {
   return (
@@ -7,3 +8,7 @@ export default function Image(props) {
     </div>
   );
 }
+
+Image.propTypes = {
+  img_src: string,
+};

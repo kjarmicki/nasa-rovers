@@ -1,4 +1,5 @@
 import React from 'react';
+import { arrayOf, shape, string, number } from 'prop-types';
 import Image from './Image';
 
 export default function Gallery(props) {
@@ -11,3 +12,10 @@ export default function Gallery(props) {
     </div>
   ) : null;
 }
+
+Gallery.propTypes = {
+  roverName: string,
+  photos: arrayOf(shape({
+    id: number,
+  })),
+};

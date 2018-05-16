@@ -1,5 +1,8 @@
+import { msToReadableDate } from '../utils/time';
+
 export const SET_ROVERS = 'SET_ROVERS';
 export const SET_BOUNDS = 'SET_BOUNDS';
+export const SET_PHOTOS = 'SET_PHOTOS';
 export const CHOOSE_TIME = 'CHOOSE_TIME';
 export const HOVER_OVER_TIME = 'HOVER_OVER_TIME';
 export const STOP_HOVERING_OVER_TIME = 'STOP_HOVERING_OVER_TIME';
@@ -17,7 +20,7 @@ function calculateBounds(rovers) {
 }
 
 export function initRovers() {
-  return async (dispatch, setState, { roversRepository }) => {
+  return async (dispatch, getState, { roversRepository }) => {
     const rovers = await roversRepository.getAll();
     const bounds = calculateBounds(rovers);
     dispatch({
@@ -31,10 +34,24 @@ export function initRovers() {
   };
 }
 
-export function chooseTime(offsetForChosen) {
-  return {
-    type: CHOOSE_TIME,
-    offsetForChosen,
+export function chooseTimeWithPhotos(offsetForChosen) {
+  return (dispatch, getState, { photosRepository }) => {
+    dispatch({
+      type: CHOOSE_TIME,
+      offsetForChosen,
+    });
+    const msDate = getState().bounds.min + offsetForChosen;
+    const earthDate = msToReadableDate(msDate);
+    const fetchingPhotosForAllRovers = getState().rovers.map(rover => rover.name)
+      .map(roverName => photosRepository.getByRoverAndEarthDate(roverName, earthDate)
+        .then((photos) => {
+          dispatch({
+            type: SET_PHOTOS,
+            roverName,
+            photos,
+          });
+        }));
+    return Promise.all(fetchingPhotosForAllRovers);
   };
 }
 

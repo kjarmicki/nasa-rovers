@@ -44,17 +44,28 @@ describe('The Timeline component', () => {
     });
 
     // then
-    expect(dispatch).toHaveBeenCalledTimes(1);
     expect(dispatch).toHaveBeenCalledWith({
       type: actions.HOVER_OVER_TIME,
       offsetForHovering: 79185600000,
     });
+    expect(dispatch).toHaveBeenCalledTimes(1);
   });
 
   it('should dispatch appropriate action on mouse click', () => {
-    // when
+    // given
     const dispatch = jest.fn();
-    const component = shallow(<Timeline bounds={EXAMPLE_BOUNDS} dispatch={dispatch} />);
+    const ctwpReturnValue = Symbol('chooseTimeWithPhotos return value');
+    const ctwpMock = jest.fn(() => ctwpReturnValue);
+    const mockedActions = {
+      chooseTimeWithPhotos: ctwpMock,
+    };
+
+    // when
+    const component = shallow(<Timeline
+      bounds={EXAMPLE_BOUNDS}
+      dispatch={dispatch}
+      actions={mockedActions}
+    />);
     component.find('.timeline').simulate('click', {
       clientX: 100,
       currentTarget: {
@@ -63,11 +74,9 @@ describe('The Timeline component', () => {
     });
 
     // then
+    expect(dispatch).toHaveBeenCalledWith(ctwpReturnValue);
     expect(dispatch).toHaveBeenCalledTimes(1);
-    expect(dispatch).toHaveBeenCalledWith({
-      type: actions.CHOOSE_TIME,
-      offsetForChosen: 79185600000,
-    });
+    expect(ctwpMock).toHaveBeenCalledTimes(1);
   });
 
   it('should dispatch appropriate action on mouse leave', () => {
@@ -77,9 +86,9 @@ describe('The Timeline component', () => {
     component.find('.timeline').simulate('mouseleave');
 
     // then
-    expect(dispatch).toHaveBeenCalledTimes(1);
     expect(dispatch).toHaveBeenCalledWith({
       type: actions.STOP_HOVERING_OVER_TIME,
     });
+    expect(dispatch).toHaveBeenCalledTimes(1);
   });
 });

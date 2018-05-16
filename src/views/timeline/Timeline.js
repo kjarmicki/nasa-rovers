@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { arrayOf, shape, func, number, string } from 'prop-types';
+import { arrayOf, shape, object, func, number, string } from 'prop-types';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 import { daysToMiliseconds, msToReadableDate } from '../../utils/time';
@@ -14,18 +14,19 @@ export class Timeline extends PureComponent {
     this.onClick = this.onClick.bind(this);
     this.onMouseMove = this.onMouseMove.bind(this);
     this.onMouseLeave = this.onMouseLeave.bind(this);
+    this.actions = props.actions || actions;
   }
   hasRovers() {
     return this.props.rovers.length > 0;
   }
   onClick(event) {
-    this.props.dispatch(actions.chooseTime(this.timeFromEvent(event)));
+    this.props.dispatch(this.actions.chooseTimeWithPhotos(this.timeFromEvent(event)));
   }
   onMouseMove(event) {
-    this.props.dispatch(actions.hoverOverTime(this.timeFromEvent(event)));
+    this.props.dispatch(this.actions.hoverOverTime(this.timeFromEvent(event)));
   }
   onMouseLeave() {
-    this.props.dispatch(actions.stopHoveringOverTime());
+    this.props.dispatch(this.actions.stopHoveringOverTime());
   }
   timeFromEvent(event) {
     const { bounds } = this.props;
@@ -89,6 +90,7 @@ Timeline.propTypes = {
     max: number,
   }),
   dispatch: func,
+  actions: object,
 };
 
 Timeline.defaultProps = {

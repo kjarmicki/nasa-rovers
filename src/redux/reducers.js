@@ -1,5 +1,9 @@
 import { combineReducers } from 'redux';
-import { SET_ROVERS, SET_BOUNDS, CHOOSE_TIME, HOVER_OVER_TIME, STOP_HOVERING_OVER_TIME } from './actions';
+import {
+  SET_ROVERS, SET_BOUNDS,
+  CHOOSE_TIME, HOVER_OVER_TIME, STOP_HOVERING_OVER_TIME,
+  SET_PHOTOS,
+} from './actions';
 
 function rovers(state = [], action = {}) {
   switch (action.type) {
@@ -46,8 +50,20 @@ function time(state = {
   }
 }
 
+function photos(state = {}, action = {}) {
+  switch (action.type) {
+    case SET_PHOTOS:
+      return Object.assign({}, state, {
+        [action.roverName]: action.photos,
+      });
+    default:
+      return state;
+  }
+}
+
 export default combineReducers({
   rovers,
   bounds,
   time,
+  photos,
 });

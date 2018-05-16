@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import { arrayOf, shape, object, func, number, string } from 'prop-types';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
@@ -8,7 +8,7 @@ import Rover from './Rover';
 import Indicator from './Indicator';
 import './Timeline.css';
 
-export class Timeline extends PureComponent {
+export class Timeline extends Component {
   constructor(props) {
     super(props);
     this.onClick = this.onClick.bind(this);

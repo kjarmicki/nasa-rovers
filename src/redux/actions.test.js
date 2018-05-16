@@ -17,10 +17,10 @@ const EXAMPLE_ROVERS = [
 
 const EXAMPLE_PHOTOS = {
   '2012-10-10': {
-    'Rover-1': {
+    [EXAMPLE_ROVERS[0].name]: {
       id: 1,
     },
-    'Rover-2': {
+    [EXAMPLE_ROVERS[1]]: {
       id: 2,
     },
   },
@@ -73,15 +73,27 @@ describe.only('Redux actions', () => {
             return EXAMPLE_PHOTOS[earthDate][roverName];
           },
         };
-        const offsetForChosen = Date.parse(Object.keys(EXAMPLE_PHOTOS)[0]) - getState().bounds.min;
+        const exampleDate = Object.keys(EXAMPLE_PHOTOS)[0];
+        const offsetForChosen = Date.parse(exampleDate) - getState().bounds.min;
 
         // when
         const action = actions.chooseTimeWithPhotos(offsetForChosen);
         await action(dispatch, getState, { photosRepository });
 
+        // then
         expect(dispatch).toHaveBeenCalledWith({
           type: actions.CHOOSE_TIME,
           offsetForChosen,
+        });
+        expect(dispatch).toHaveBeenCalledWith({
+          type: actions.SET_PHOTOS,
+          roverName: EXAMPLE_ROVERS[0].name,
+          photos: EXAMPLE_PHOTOS[exampleDate][EXAMPLE_ROVERS[0].name],
+        });
+        expect(dispatch).toHaveBeenCalledWith({
+          type: actions.SET_PHOTOS,
+          roverName: EXAMPLE_ROVERS[1].name,
+          photos: EXAMPLE_PHOTOS[exampleDate][EXAMPLE_ROVERS[1].name],
         });
       });
     });

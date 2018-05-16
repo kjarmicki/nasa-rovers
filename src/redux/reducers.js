@@ -50,7 +50,7 @@ function time(state = {
   }
 }
 
-function photos(state = {}, action = {}) {
+function roverPhotos(state = {}, action = {}) {
   switch (action.type) {
     case SET_PHOTOS:
       return Object.assign({}, state, {
@@ -65,5 +65,5 @@ export default combineReducers({
   rovers,
   bounds,
   time,
-  photos,
+  roverPhotos,
 });

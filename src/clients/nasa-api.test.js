@@ -1,10 +1,11 @@
 import nasaApiClient from './nasa-api';
 
 const MOCK_HTTP_CLIENT_RESPONSE = {
-  ok: true,
+  responded: true,
 };
 function mockHttpClient() {
   return jest.fn(() => ({
+    ok: true,
     json() {
       return MOCK_HTTP_CLIENT_RESPONSE;
     },

@@ -3,6 +3,7 @@ import { msToReadableDate } from '../utils/time';
 export const SET_ROVERS = 'SET_ROVERS';
 export const SET_BOUNDS = 'SET_BOUNDS';
 export const SET_PHOTOS = 'SET_PHOTOS';
+export const CRITICAL_ERROR = 'CRITICAL_ERROR';
 export const CHOOSE_TIME = 'CHOOSE_TIME';
 export const HOVER_OVER_TIME = 'HOVER_OVER_TIME';
 export const STOP_HOVERING_OVER_TIME = 'STOP_HOVERING_OVER_TIME';
@@ -21,13 +22,21 @@ function calculateBounds(rovers) {
 
 export function initRovers() {
   return async (dispatch, getState, { roversRepository }) => {
-    const rovers = await roversRepository.getAll();
+    let rovers;
+    try {
+      rovers = await roversRepository.getAll();
+    } catch (error) {
+      return dispatch({
+        type: CRITICAL_ERROR,
+        error,
+      });
+    }
     const bounds = calculateBounds(rovers);
     dispatch({
       type: SET_BOUNDS,
       bounds,
     });
-    dispatch({
+    return dispatch({
       type: SET_ROVERS,
       rovers,
     });
@@ -35,7 +44,7 @@ export function initRovers() {
 }
 
 export function chooseTimeWithPhotos(offsetForChosen, limit) {
-  return (dispatch, getState, { photosRepository }) => {
+  return async (dispatch, getState, { photosRepository }) => {
     dispatch({
       type: CHOOSE_TIME,
       offsetForChosen,
@@ -51,7 +60,14 @@ export function chooseTimeWithPhotos(offsetForChosen, limit) {
             photos,
           });
         }));
-    return Promise.all(fetchingPhotosForAllRovers);
+    try {
+      return await Promise.all(fetchingPhotosForAllRovers);
+    } catch (error) {
+      return dispatch({
+        type: CRITICAL_ERROR,
+        error,
+      });
+    }
   };
 }
 

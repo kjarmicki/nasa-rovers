@@ -23,9 +23,18 @@ export default function nasaApiClient(httpClient, config = {}) {
     return withApiKey(createUrl(relativePath)).toString();
   }
 
+  function createError(response) {
+    const error = new Error(response.statusText);
+    error.status = response.status;
+    return error;
+  }
+
   return {
     async get(relativePath) {
       const response = await httpClient(expand(relativePath));
+      if (!response.ok) {
+        throw createError(response);
+      }
       return response.json();
     },
   };

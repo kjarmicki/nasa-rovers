@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
 import {
-  SET_ROVERS, SET_BOUNDS,
+  SET_ROVERS, SET_BOUNDS, SET_PHOTOS,
   CHOOSE_TIME, HOVER_OVER_TIME, STOP_HOVERING_OVER_TIME,
-  SET_PHOTOS,
+  CRITICAL_ERROR,
 } from './actions';
 
 function rovers(state = [], action = {}) {
@@ -61,9 +61,24 @@ function roverPhotos(state = {}, action = {}) {
   }
 }
 
+function stability(state = {
+  isStable: true,
+}, action = {}) {
+  switch (action.type) {
+    case CRITICAL_ERROR:
+      return {
+        isStable: false,
+        error: action.error,
+      };
+    default:
+      return state;
+  }
+}
+
 export default combineReducers({
   rovers,
   bounds,
   time,
   roverPhotos,
+  stability,
 });

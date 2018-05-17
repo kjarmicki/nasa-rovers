@@ -9,7 +9,9 @@
   },
   "scripts": {
     "build": "webpack",
+    "server": "node src/server",
     "start:dev": "webpack-dev-server",
+    "start:prod": "export NODE_ENV=production && npm run build && npm run server",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "test": "jest",
@@ -27,6 +29,7 @@
     "classnames": "2.2.5",
     "css-loader": "0.28.11",
     "dotenv": "5.0.1",
+    "express": "4.16.3",
     "html-webpack-plugin": "3.2.0",
     "node-fetch": "2.1.2",
     "normalize.css": "8.0.0",

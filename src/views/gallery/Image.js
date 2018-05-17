@@ -1,5 +1,6 @@
 import React from 'react';
 import { string } from 'prop-types';
+import './Image.css';
 
 export default function Image(props) {
   return (

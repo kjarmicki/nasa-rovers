@@ -34,7 +34,7 @@ export function initRovers() {
   };
 }
 
-export function chooseTimeWithPhotos(offsetForChosen) {
+export function chooseTimeWithPhotos(offsetForChosen, limit) {
   return (dispatch, getState, { photosRepository }) => {
     dispatch({
       type: CHOOSE_TIME,
@@ -43,7 +43,7 @@ export function chooseTimeWithPhotos(offsetForChosen) {
     const msDate = getState().bounds.min + offsetForChosen;
     const earthDate = msToReadableDate(msDate);
     const fetchingPhotosForAllRovers = getState().rovers.map(rover => rover.name)
-      .map(roverName => photosRepository.getByRoverAndEarthDate(roverName, earthDate)
+      .map(roverName => photosRepository.getByRoverAndEarthDate(roverName, earthDate, { limit })
         .then((photos) => {
           dispatch({
             type: SET_PHOTOS,

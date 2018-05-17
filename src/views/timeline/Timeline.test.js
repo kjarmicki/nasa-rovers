@@ -40,6 +40,7 @@ describe('The Timeline component', () => {
       clientX: 100,
       currentTarget: {
         clientWidth: 200,
+        offsetLeft: 0,
       },
     });
 

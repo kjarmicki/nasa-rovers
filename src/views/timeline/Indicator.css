@@ -1,7 +1,16 @@
 .indicator {
   position: absolute;
   width: 1px;
-  height: 100%;
-  top: 0;
-  background-color: black;
+  top: 2px;
+  bottom: 22px;
+  background-color: #A9A9A9;
+}
+
+.indicator-date {
+  position: absolute;
+  bottom: -42px;
+  left: -38px;
+  white-space: nowrap;
+  font-size: 0.9em;
+  background-color: #262626;
 }

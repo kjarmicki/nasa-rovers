@@ -26,7 +26,7 @@ const EXAMPLE_PHOTOS = {
   },
 };
 
-describe.only('Redux actions', () => {
+describe('Redux actions', () => {
   describe('for rovers', () => {
     it('should make it possible to initialize rovers', async () => {
       // given

@@ -22,7 +22,7 @@ describe('The Gallery component', () => {
     const component = shallow(<Gallery roverName={roverName} photos={EXAMPLE_PHOTOS} />);
 
     // then
-    expect(component.find('h2')).toHaveText(roverName);
+    expect(component.find('h2')).toIncludeText(roverName);
   });
 
   it('should be able to render gallery images', () => {

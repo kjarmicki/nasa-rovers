@@ -1,0 +1,10 @@
+.image {
+  width: 100%;
+}
+
+.image img {
+  display: block;
+  max-width: 100%;
+  min-width: 60%;
+  margin: 0 auto 30px;
+}

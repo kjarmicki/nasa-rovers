@@ -20,7 +20,9 @@ export class Timeline extends Component {
     return this.props.rovers.length > 0;
   }
   onClick(event) {
-    this.props.dispatch(this.actions.chooseTimeWithPhotos(this.timeFromEvent(event)));
+    this.props.dispatch(
+      this.actions.chooseTimeWithPhotos(
+        this.timeFromEvent(event), this.props.photosLimit));
   }
   onMouseMove(event) {
     this.props.dispatch(this.actions.hoverOverTime(this.timeFromEvent(event)));
@@ -30,7 +32,8 @@ export class Timeline extends Component {
   }
   timeFromEvent(event) {
     const { bounds } = this.props;
-    const proportion = event.clientX / event.currentTarget.clientWidth;
+    const proportion = (event.clientX - event.currentTarget.offsetLeft)
+      / event.currentTarget.clientWidth;
     const spectrum = bounds.max - (bounds.min - daysToMiliseconds(1));
     return spectrum * proportion;
   }
@@ -68,8 +71,8 @@ export class Timeline extends Component {
           {Timeline.createRulerMarks(10)}
           {Timeline.createRulerBounds(bounds)}
         </div>
-        {offsetForHovering && <Indicator offset={offsetForHovering} />}
         {offsetForChosen && <Indicator offset={offsetForChosen} />}
+        {offsetForHovering && <Indicator offset={offsetForHovering} />}
       </div>
     );
   }
@@ -91,6 +94,7 @@ Timeline.propTypes = {
   }),
   dispatch: func,
   actions: object,
+  photosLimit: number,
 };
 
 Timeline.defaultProps = {
@@ -109,4 +113,5 @@ export default connect(state => ({
   rovers: state.rovers,
   time: state.time,
   bounds: state.bounds,
+  photosLimit: 10,
 }))(Timeline);

@@ -2,7 +2,9 @@
 
 ## What is this?
 
-This application demonstrates photos taken by NASA's Mars rovers.
+It's a recruitment task that was given to me by one of the companies I applied to.
+They basically said "find yourself an API and create an app for it", so I
+made an app that demonstrates photos taken by NASA's Mars rovers.
 
 ## Installation
 

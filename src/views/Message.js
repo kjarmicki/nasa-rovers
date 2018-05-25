@@ -24,9 +24,14 @@ export default function Message(props) {
 
 Message.propTypes = {
   type: string,
-  message: string,
+  message: string.isRequired,
   error: shape({
     message: string,
     status: number,
   }),
+};
+
+Message.defaultProps = {
+  type: 'default',
+  error: undefined,
 };

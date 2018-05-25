@@ -34,13 +34,13 @@ export class Rover extends Component {
 }
 
 Rover.propTypes = {
-  name: string,
-  landing_date: string,
-  max_date: string,
+  name: string.isRequired,
+  landing_date: string.isRequired,
+  max_date: string.isRequired,
   bounds: shape({
-    min: number,
-    max: number,
-  }),
+    min: number.isRequired,
+    max: number.isRequired,
+  }).isRequired,
 };
 
 export default connect(state => ({

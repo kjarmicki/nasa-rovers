@@ -80,9 +80,9 @@ export class Timeline extends Component {
 
 Timeline.propTypes = {
   rovers: arrayOf(shape({
-    id: number,
-    landing_date: string,
-    max_date: string,
+    id: number.isRequired,
+    landing_date: string.isRequired,
+    max_date: string.isRequired,
   })),
   time: shape({
     offsetForHovering: number,
@@ -92,7 +92,7 @@ Timeline.propTypes = {
     min: number,
     max: number,
   }),
-  dispatch: func,
+  dispatch: func.isRequired,
   actions: object,
   photosLimit: number,
 };
@@ -103,15 +103,16 @@ Timeline.defaultProps = {
     offsetForHovering: undefined,
     offsetForChosen: undefined,
   },
+  dispatch: () => {},
   bounds: {
     min: undefined,
     max: undefined,
   },
+  photosLimit: 10,
 };
 
 export default connect(state => ({
   rovers: state.rovers,
   time: state.time,
   bounds: state.bounds,
-  photosLimit: 10,
 }))(Timeline);

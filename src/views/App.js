@@ -30,6 +30,12 @@ App.propTypes = {
   }),
 };
 
+App.defaultProps = {
+  stability: {
+    isStable: true,
+  },
+};
+
 export default connect(state => ({
   stability: state.stability,
 }))(App);

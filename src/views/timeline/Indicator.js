@@ -20,10 +20,10 @@ export function Indicator(props) {
 
 Indicator.propTypes = {
   bounds: shape({
-    min: number,
-    max: number,
-  }),
-  offset: number,
+    min: number.isRequired,
+    max: number.isRequired,
+  }).isRequired,
+  offset: number.isRequired,
 };
 
 export default connect(state => ({

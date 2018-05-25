@@ -1,4 +1,4 @@
-import { msToReadableDate } from '../utils/time';
+import { msToReadableDate } from '../../utils/time';
 
 export const SET_ROVERS = 'SET_ROVERS';
 export const SET_BOUNDS = 'SET_BOUNDS';

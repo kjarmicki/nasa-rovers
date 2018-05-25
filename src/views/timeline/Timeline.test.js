@@ -1,7 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import { Timeline } from './Timeline';
-import * as actions from '../../redux/actions';
 
 const EXAMPLE_ROVERS = [
   {
@@ -32,10 +31,11 @@ describe('The Timeline component', () => {
     expect(upperBound).toHaveText('2016-05-08');
   });
 
-  it('should dispatch appropriate action on mouse move', () => {
+  it('should call appropriate function on mouse move', () => {
     // when
-    const dispatch = jest.fn();
-    const component = shallow(<Timeline bounds={EXAMPLE_BOUNDS} dispatch={dispatch} />);
+    const onHoverOverTime = jest.fn();
+    const component = shallow(
+      <Timeline bounds={EXAMPLE_BOUNDS} onHoverOverTime={onHoverOverTime} />);
     component.find('.timeline').simulate('mousemove', {
       clientX: 100,
       currentTarget: {
@@ -45,51 +45,38 @@ describe('The Timeline component', () => {
     });
 
     // then
-    expect(dispatch).toHaveBeenCalledWith({
-      type: actions.HOVER_OVER_TIME,
-      offsetForHovering: 79185600000,
-    });
-    expect(dispatch).toHaveBeenCalledTimes(1);
+    expect(onHoverOverTime).toHaveBeenCalledWith(79185600000);
+    expect(onHoverOverTime).toHaveBeenCalledTimes(1);
   });
 
-  it('should dispatch appropriate action on mouse click', () => {
+  it('should call appropriate function on mouse click', () => {
     // given
-    const dispatch = jest.fn();
-    const ctwpReturnValue = Symbol('chooseTimeWithPhotos return value');
-    const ctwpMock = jest.fn(() => ctwpReturnValue);
-    const mockedActions = {
-      chooseTimeWithPhotos: ctwpMock,
-    };
+    const onTimeChosen = jest.fn();
 
     // when
-    const component = shallow(<Timeline
-      bounds={EXAMPLE_BOUNDS}
-      dispatch={dispatch}
-      actions={mockedActions}
-    />);
+    const component = shallow(
+      <Timeline bounds={EXAMPLE_BOUNDS} onTimeChosen={onTimeChosen} photosLimit={8} />);
     component.find('.timeline').simulate('click', {
       clientX: 100,
       currentTarget: {
         clientWidth: 200,
+        offsetLeft: 0,
       },
     });
 
     // then
-    expect(dispatch).toHaveBeenCalledWith(ctwpReturnValue);
-    expect(dispatch).toHaveBeenCalledTimes(1);
-    expect(ctwpMock).toHaveBeenCalledTimes(1);
+    expect(onTimeChosen).toHaveBeenCalledWith(79185600000, 8);
+    expect(onTimeChosen).toHaveBeenCalledTimes(1);
   });
 
-  it('should dispatch appropriate action on mouse leave', () => {
+  it('should call appropriate function on mouse leave', () => {
     // when
-    const dispatch = jest.fn();
-    const component = shallow(<Timeline bounds={EXAMPLE_BOUNDS} dispatch={dispatch} />);
+    const onStopHoveringOverTime = jest.fn();
+    const component = shallow(
+      <Timeline bounds={EXAMPLE_BOUNDS} onStopHoveringOverTime={onStopHoveringOverTime} />);
     component.find('.timeline').simulate('mouseleave');
 
     // then
-    expect(dispatch).toHaveBeenCalledWith({
-      type: actions.STOP_HOVERING_OVER_TIME,
-    });
-    expect(dispatch).toHaveBeenCalledTimes(1);
+    expect(onStopHoveringOverTime).toHaveBeenCalledTimes(1);
   });
 });

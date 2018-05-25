@@ -14,21 +14,18 @@ export class Timeline extends Component {
     this.onClick = this.onClick.bind(this);
     this.onMouseMove = this.onMouseMove.bind(this);
     this.onMouseLeave = this.onMouseLeave.bind(this);
-    this.actions = props.actions || actions;
   }
   hasRovers() {
     return this.props.rovers.length > 0;
   }
   onClick(event) {
-    this.props.dispatch(
-      this.actions.chooseTimeWithPhotos(
-        this.timeFromEvent(event), this.props.photosLimit));
+    this.props.onTimeChosen(this.timeFromEvent(event), this.props.photosLimit);
   }
   onMouseMove(event) {
-    this.props.dispatch(this.actions.hoverOverTime(this.timeFromEvent(event)));
+    this.props.onHoverOverTime(this.timeFromEvent(event));
   }
   onMouseLeave() {
-    this.props.dispatch(this.actions.stopHoveringOverTime());
+    this.props.onStopHoveringOverTime();
   }
   timeFromEvent(event) {
     const { bounds } = this.props;
@@ -92,7 +89,9 @@ Timeline.propTypes = {
     min: number,
     max: number,
   }),
-  dispatch: func.isRequired,
+  onHoverOverTime: func,
+  onStopHoveringOverTime: func,
+  onTimeChosen: func,
   actions: object,
   photosLimit: number,
 };
@@ -103,7 +102,9 @@ Timeline.defaultProps = {
     offsetForHovering: undefined,
     offsetForChosen: undefined,
   },
-  dispatch: () => {},
+  onHoverOverTime: () => {},
+  onStopHoveringOverTime: () => {},
+  onTimeChosen: () => {},
   bounds: {
     min: undefined,
     max: undefined,
@@ -111,8 +112,15 @@ Timeline.defaultProps = {
   photosLimit: 10,
 };
 
-export default connect(state => ({
-  rovers: state.rovers,
-  time: state.time,
-  bounds: state.bounds,
-}))(Timeline);
+export default connect(
+  state => ({
+    rovers: state.rovers,
+    time: state.time,
+    bounds: state.bounds,
+  }),
+  dispatch => ({
+    onHoverOverTime: time => dispatch(actions.hoverOverTime(time)),
+    onStopHoveringOverTime: () => dispatch(actions.stopHoveringOverTime()),
+    onTimeChosen: (time, photosLimit) => dispatch(actions.chooseTimeWithPhotos(time, photosLimit)),
+  }),
+)(Timeline);
